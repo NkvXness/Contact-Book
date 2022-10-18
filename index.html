@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Contact Book</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+    </style>
+</head>
+
+<body>
+    <div class="dark-bg"></div>
+    <header class="header">
+        <div class="container">
+            <div class="header__wrapper">
+                <div class="logo">
+                    <div class="logo__container">
+                        <h1 class="header__title">Книга контактов</h1>
+                    </div>
+                </div>
+                <button class="add-contact">Добавить контакт <img src="plus.svg" class="plus-icon"></button>
+                <button class="groups">Группы</button>
+            </div>
+        </div>
+    </header>
+    <main class="main">
+        <div class="contact__groups open">
+            <div class="contact__groups-wrapper">
+                <div class="contact__groups-header_continer">
+                    <div class="contact__groups-header">
+                        <h2 class="contact__groups-title">Группы Контактов</h2>
+                        <button class="contact__groups-close"><img src="cross-icon.svg" alt="cross-icon" class="contact__groups-cross"></button>
+                    </div>
+                </div>
+                <div class="contact__groups-body"></div>
+                <div class="contact__groups-footer">
+                    <button class="add">Добавить</button>
+                    <button class="save">Сохранить</button>
+                </div>
+            </div>
+        </div>
+        <div class="contact__add add__open">
+            <div class="contact__add-wrapper">
+                <div class="contact__add-header_continer">
+                    <div class="contact__add-header">
+                        <h2 class="contact__add-title">Добавление контакта</h2>
+                        <button class="contact__add-close"><img src="cross-icon.svg" alt="cross-icon" class="contact__add-cross"></button>
+                    </div>
+                </div>
+                <div class="contact__add-body">
+                    <div class="contact__add-field">
+                        <input type="text" class="addName" placeholder="Введите ФИО" value="">
+                    </div>
+                    <div class="contact__add-field">
+                        <input type="tel" class="addPhoneNumber" placeholder="Введите номер" value="">
+                    </div>
+                    <div class="select-box">
+                        <div class="options-container"></div>
+                        <div class="selected">
+                            Выберите группу
+                        </div>
+                    </div>
+                </div>
+                <div class="contact__add-footer">
+                    <button class="contact__save-button save">Сохранить</button>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="main__wrapper">
+                <h2 class="main__title">Список контактов пуст</h2>
+                <div class="accordion"></div>
+            </div>
+        </div>
+    </main>
+    <script src="app.js"></script>
+</body>
+
+</html>
