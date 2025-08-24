@@ -146,33 +146,40 @@ export class ContactList extends BaseComponent {
 
   createContactElement(contact) {
     const contactDiv = this.createElement('div', {
-      className: 'accordion__content',
+      className: 'contact-item accordion__content',
       dataset: { contactId: contact.id }
     });
 
     contactDiv.innerHTML = `
-      <div class="accordion__inner-content">
-        <div class="line"></div>
-        <div class="accordion__right-container">
-          <div class="accordion__person-data">${contact.name}</div>
-        </div>
-        <div class="accordion__left_container">
-          <div class="accordion__person-number">${contact.phone}</div>
-          <span class="edit-button" data-action="edit">
-            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path opacity="0.3" d="M0 15.2501V19.0001H3.75L14.81 7.94006L11.06 4.19006L0 15.2501ZM17.71 5.04006C18.1 4.65006 18.1 4.02006 17.71 3.63006L15.37 1.29006C14.98 0.900059 14.35 0.900059 13.96 1.29006L12.13 3.12006L15.88 6.87006L17.71 5.04006Z" fill="black"></path>
-            </svg>
-          </span>
-          <span class="delete-button" data-action="delete">
-            <svg width="16" height="20" fill="none" viewBox="0 0 16 20" xmlns="http://www.w3.org/2000/svg">
-              <path opacity="0.3" d="M1.66664 17.3889C1.66664 18.55 2.61664 19.5 3.77775 19.5H12.2222C13.3833 19.5 14.3333 18.55 14.3333 17.3889V4.72222H1.66664V17.3889ZM4.26331 9.87333L5.75164 8.385L7.99997 10.6228L10.2378 8.385L11.7261 9.87333L9.48831 12.1111L11.7261 14.3489L10.2378 15.8372L7.99997 13.5994L5.7622 15.8372L4.27386 14.3489L6.51164 12.1111L4.26331 9.87333ZM11.6944 1.55556L10.6389 0.5H5.36108L4.30553 1.55556H0.611084V3.66667H15.3889V1.55556H11.6944Z" fill="black"></path>
-            </svg>
-          </span>
-        </div>
+      <div class="contact-info">
+        <div class="contact-name accordion__person-data">${this.escapeHtml(contact.name)}</div>
+        <div class="contact-phone accordion__person-number">${this.escapeHtml(contact.phone)}</div>
       </div>
+      <div class="contact-actions accordion__left_container">
+        <button class="contact-action-btn inline-edit-btn" data-action="inline-edit" title="Редактировать на месте">
+          ✏️
+        </button>
+        <button class="contact-action-btn edit-button" data-action="edit" title="Редактировать в форме">
+          <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path opacity="0.3" d="M0 15.2501V19.0001H3.75L14.81 7.94006L11.06 4.19006L0 15.2501ZM17.71 5.04006C18.1 4.65006 18.1 4.02006 17.71 3.63006L15.37 1.29006C14.98 0.900059 14.35 0.900059 13.96 1.29006L12.13 3.12006L15.88 6.87006L17.71 5.04006Z" fill="black"></path>
+          </svg>
+        </button>
+        <button class="contact-action-btn delete-button" data-action="delete" title="Удалить контакт">
+          <svg width="16" height="20" fill="none" viewBox="0 0 16 20" xmlns="http://www.w3.org/2000/svg">
+            <path opacity="0.3" d="M1.66664 17.3889C1.66664 18.55 2.61664 19.5 3.77775 19.5H12.2222C13.3833 19.5 14.3333 18.55 14.3333 17.3889V4.72222H1.66664V17.3889ZM4.26331 9.87333L5.75164 8.385L7.99997 10.6228L10.2378 8.385L11.7261 9.87333L9.48831 12.1111L11.7261 14.3489L10.2378 15.8372L7.99997 13.5994L5.7622 15.8372L4.27386 14.3489L6.51164 12.1111L4.26331 9.87333ZM11.6944 1.55556L10.6389 0.5H5.36108L4.30553 1.55556H0.611084V3.66667H15.3889V1.55556H11.6944Z" fill="black"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="line accordion__line"></div>
     `;
 
     return contactDiv;
+  }
+
+  escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   }
 
   handleAccordionClick(e) {
@@ -187,6 +194,9 @@ export class ContactList extends BaseComponent {
     if (!contact) return;
 
     switch (action) {
+      case 'inline-edit':
+        this.emit('startInlineEdit', { contact, contactElement });
+        break;
       case 'edit':
         this.editContact(contact);
         break;

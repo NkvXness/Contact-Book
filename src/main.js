@@ -5,6 +5,7 @@ import { ContactList } from './components/ContactList.js';
 import { ContactSearch } from './components/ContactSearch.js';
 import { ContactImportExport } from './components/ContactImportExport.js';
 import { MobileInterface } from './components/MobileInterface.js';
+import { InlineEditor } from './components/InlineEditor.js';
 import { ContactService } from './services/ContactService.js';
 import { GroupService } from './services/GroupService.js';
 import { APP_CONFIG } from './utils/constants.js';
@@ -17,6 +18,7 @@ class ContactBookApp {
     this.contactSearch = null;
     this.contactImportExport = null;
     this.mobileInterface = null;
+    this.inlineEditor = null;
   }
 
   init() {
@@ -32,9 +34,10 @@ class ContactBookApp {
       this.contactList = new ContactList(this.contactForm);
       this.contactSearch = new ContactSearch();
       this.contactImportExport = new ContactImportExport();
+      this.inlineEditor = new InlineEditor();
       
       this.setupComponentCommunication();
-      console.log('Modern responsive architecture with full features active');
+      console.log('Complete modern architecture with all features active');
     } catch (error) {
       console.error('Failed to initialize modern mode:', error);
     }
@@ -71,6 +74,13 @@ class ContactBookApp {
 
     document.addEventListener('contactsImported', (e) => {
       console.log('Contacts imported:', e.detail.imported, 'contacts');
+    });
+
+    document.addEventListener('startInlineEdit', (e) => {
+      const button = e.detail.contactElement.querySelector('.inline-edit-btn');
+      if (button) {
+        this.inlineEditor.startInlineEdit(button);
+      }
     });
   }
 
