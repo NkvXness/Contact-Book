@@ -1,1 +1,15 @@
-# Modern CSS architecture and styling
+# Styles Layer
+
+This directory will contain modern CSS architecture and component styling.
+
+## Current Structure
+
+- **main.css** - Entry point with legacy compatibility and CSS custom properties
+
+## Future Architecture
+
+- Component-specific stylesheets
+- CSS custom properties for theming
+- Modern layout with CSS Grid/Flexbox
+- Responsive design patterns
+- Dark theme support

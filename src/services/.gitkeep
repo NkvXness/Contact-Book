@@ -1,1 +1,17 @@
-# Services layer for business logic and data management
+# Services Layer
+
+This directory contains service classes that handle business logic and data management.
+
+## Current Services
+
+- **StorageService.js** - Browser localStorage operations with error handling
+- **ContactService.js** - CRUD operations for contacts with validation
+- **GroupService.js** - Group management and organization logic
+
+## Architecture Pattern
+
+Services follow a static class pattern with clear separation of concerns:
+- Data persistence (StorageService)
+- Business logic (Contact/GroupService)
+- Validation and error handling
+- Event emission for UI updates

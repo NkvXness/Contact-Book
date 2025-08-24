@@ -1,1 +1,16 @@
-# Utility functions and helper modules
+# Utilities Layer
+
+This directory contains utility functions and helper modules used throughout the application.
+
+## Current Utilities
+
+- **validators.js** - Form validation functions with error handling
+- **constants.js** - Application constants, selectors, and configuration
+
+## Architecture Pattern
+
+Utilities are pure functions that:
+- Have no side effects
+- Return consistent results
+- Can be easily tested
+- Promote code reuse across components
