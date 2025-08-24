@@ -1,4 +1,4 @@
-import './styles/main.css';
+// CSS is now imported directly in HTML for GitHub Pages compatibility
 import { GroupManager } from './components/GroupManager.js';
 import { ContactForm } from './components/ContactForm.js';
 import { ContactList } from './components/ContactList.js';
