@@ -7,6 +7,8 @@ import { ContactService } from '../services/ContactService.js';
 import { GroupService } from '../services/GroupService.js';
 import { validateContactName, validatePhoneNumber } from '../utils/validators.js';
 import { SELECTORS, EVENTS, KEYS, CSS_CLASSES } from '../utils/constants.js';
+import { ValidationUI } from './ValidationUI.js';
+import { showToast } from './ToastManager.js';
 
 export class ContactForm extends BaseComponent {
   constructor(groupManager) {
@@ -14,6 +16,7 @@ export class ContactForm extends BaseComponent {
     this.groupManager = groupManager;
     this.editingContact = null;
     this.bindElements();
+    this.setupValidationUI();
     this.bindEvents();
     this.initializePhoneMask();
   }
@@ -32,6 +35,48 @@ export class ContactForm extends BaseComponent {
     this.selected = this.$(SELECTORS.SELECTED);
   }
 
+  setupValidationUI() {
+    if (this.nameInput) {
+      this.setupFieldValidation(this.nameInput, 'Имя контакта', validateContactName);
+    }
+    
+    if (this.phoneInput) {
+      this.setupFieldValidation(this.phoneInput, 'Номер телефона', validatePhoneNumber, { debounce: 500 });
+    }
+  }
+
+  setupFieldValidation(field, labelText, validator, options = {}) {
+    const parent = field.parentElement;
+    if (!parent.classList.contains('form-field')) {
+      parent.classList.add('form-field');
+      
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'error-message';
+      parent.appendChild(errorDiv);
+      
+      const successDiv = document.createElement('div');
+      successDiv.className = 'success-message';
+      parent.appendChild(successDiv);
+      
+      const errorIcon = document.createElement('div');
+      errorIcon.className = 'field-icon error-icon';
+      errorIcon.innerHTML = `<svg viewBox="0 0 20 20" fill="currentColor" style="color: #dc3545">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+      </svg>`;
+      
+      const successIcon = document.createElement('div');
+      successIcon.className = 'field-icon success-icon';
+      successIcon.innerHTML = `<svg viewBox="0 0 20 20" fill="currentColor" style="color: #28a745">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+      </svg>`;
+      
+      parent.appendChild(errorIcon);
+      parent.appendChild(successIcon);
+    }
+    
+    ValidationUI.addRealTimeValidation(field, validator, options);
+  }
+
   /**
    * Bind event listeners
    */
@@ -40,10 +85,6 @@ export class ContactForm extends BaseComponent {
     this.addEventListener(this.addContactButton, EVENTS.CLICK, () => this.openForm());
     this.addEventListener(this.crossAddButton, EVENTS.CLICK, () => this.closeForm());
     this.addEventListener(this.saveContactButton, EVENTS.CLICK, (e) => this.handleSubmit(e));
-
-    // Form validation
-    this.addEventListener(this.nameInput, EVENTS.INPUT, () => this.validateName());
-    this.addEventListener(this.phoneInput, EVENTS.INPUT, () => this.validatePhone());
 
     // Listen for group selection
     this.on('groupSelected', (e) => this.handleGroupSelection(e.detail));
@@ -226,10 +267,10 @@ export class ContactForm extends BaseComponent {
     const validation = validateContactName(value);
 
     if (validation.isValid) {
-      this.clearFieldError(this.nameInput);
+      ValidationUI.showSuccess(this.nameInput);
       return true;
     } else {
-      this.showFieldError(this.nameInput, validation.error);
+      ValidationUI.showError(this.nameInput, validation.error);
       return false;
     }
   }
@@ -244,10 +285,10 @@ export class ContactForm extends BaseComponent {
 
     if (validation.isValid) {
       this.setValue(this.phoneInput, validation.value);
-      this.clearFieldError(this.phoneInput);
+      ValidationUI.showSuccess(this.phoneInput);
       return true;
     } else {
-      this.showFieldError(this.phoneInput, validation.error);
+      ValidationUI.showError(this.phoneInput, validation.error);
       return false;
     }
   }
@@ -260,11 +301,11 @@ export class ContactForm extends BaseComponent {
     const selectedGroup = this.groupManager.getSelectedGroup();
     
     if (!selectedGroup) {
-      this.showFieldError(this.selected, 'Please select a group');
+      ValidationUI.showError(this.selected, 'Пожалуйста, выберите группу');
       return false;
     }
 
-    this.clearFieldError(this.selected);
+    ValidationUI.showSuccess(this.selected);
     return true;
   }
 
@@ -273,7 +314,7 @@ export class ContactForm extends BaseComponent {
    * @param {Object} detail - Event detail
    */
   handleGroupSelection(detail) {
-    this.clearFieldError(this.selected);
+    ValidationUI.clearValidation(this.selected);
   }
 
   /**
@@ -324,31 +365,29 @@ export class ContactForm extends BaseComponent {
   }
 
   /**
-   * Show field validation error
+   * Show field validation error (deprecated - use ValidationUI)
    * @param {Element} field - Input field
    * @param {string} message - Error message
    */
   showFieldError(field, message) {
-    this.addClass(field, 'error');
-    field.title = message;
+    ValidationUI.showError(field, message);
   }
 
   /**
-   * Clear field validation error
+   * Clear field validation error (deprecated - use ValidationUI)
    * @param {Element} field - Input field
    */
   clearFieldError(field) {
-    this.removeClass(field, 'error');
-    field.title = '';
+    ValidationUI.clearValidation(field);
   }
 
   /**
    * Clear all validation errors
    */
   clearValidationErrors() {
-    this.clearFieldError(this.nameInput);
-    this.clearFieldError(this.phoneInput);
-    this.clearFieldError(this.selected);
+    if (this.nameInput) ValidationUI.clearValidation(this.nameInput);
+    if (this.phoneInput) ValidationUI.clearValidation(this.phoneInput);
+    if (this.selected) ValidationUI.clearValidation(this.selected);
   }
 
   /**
@@ -356,8 +395,7 @@ export class ContactForm extends BaseComponent {
    * @param {string} message - Error message
    */
   showFormError(message) {
-    console.error('Form Error:', message);
-    // In a real app, this would show a toast or modal
+    showToast(message, 'error', 5000);
   }
 
   /**
@@ -365,7 +403,6 @@ export class ContactForm extends BaseComponent {
    * @param {string} message - Success message
    */
   showSuccess(message) {
-    console.log('Success:', message);
-    // In a real app, this would show a toast notification
+    showToast(message, 'success', 3000);
   }
 }

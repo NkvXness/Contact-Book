@@ -46,6 +46,113 @@
   box-sizing: border-box;
 }
 
+/* Form validation styles */
+.form-field {
+  position: relative;
+  margin-bottom: var(--spacing-md);
+}
+
+.contact__add-field {
+  position: relative;
+}
+
+.form-field.error input,
+.form-field.error select {
+  border-color: var(--danger-color);
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.2);
+}
+
+.form-field.success input,
+.form-field.success select {
+  border-color: var(--success-color);
+  box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.2);
+}
+
+.error-message {
+  display: none;
+  color: var(--danger-color);
+  font-size: 0.875rem;
+  margin-top: var(--spacing-xs);
+  font-weight: 500;
+}
+
+.form-field.error .error-message {
+  display: block;
+}
+
+.success-message {
+  display: none;
+  color: var(--success-color);
+  font-size: 0.875rem;
+  margin-top: var(--spacing-xs);
+  font-weight: 500;
+}
+
+.form-field.success .success-message {
+  display: block;
+}
+
+.field-icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.form-field.error .field-icon.error-icon,
+.form-field.success .field-icon.success-icon {
+  opacity: 1;
+}
+
+/* Toast notification styles */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  transform: translateX(400px);
+  transition: transform 0.3s ease;
+  border-left: 4px solid var(--success-color);
+  min-width: 300px;
+}
+
+.toast.show {
+  transform: translateX(0);
+}
+
+.toast.error {
+  border-left-color: var(--danger-color);
+}
+
+.toast.warning {
+  border-left-color: var(--warning-color);
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.toast-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.toast-message {
+  font-weight: 500;
+  color: #333;
+}
+
 /* Future-ready utility classes */
 .sr-only {
   position: absolute;

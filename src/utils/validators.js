@@ -1,25 +1,37 @@
 export const validateContactName = (name) => {
   if (!name || typeof name !== 'string') {
-    return { isValid: false, error: 'Name is required' };
+    return { isValid: false, error: 'Имя обязательно для заполнения' };
   }
 
   const trimmedName = name.trim();
   
+  if (trimmedName.length === 0) {
+    return { isValid: false, error: 'Имя не может быть пустым' };
+  }
+  
   if (trimmedName.length < 2) {
-    return { isValid: false, error: 'Name must be at least 2 characters long' };
+    return { isValid: false, error: 'Имя должно содержать минимум 2 символа' };
   }
 
   if (trimmedName.length > 100) {
-    return { isValid: false, error: 'Name cannot exceed 100 characters' };
+    return { isValid: false, error: 'Имя не может содержать более 100 символов' };
   }
 
-  // Check for valid characters (letters, spaces, hyphens, apostrophes)
   const nameRegex = /^[a-zA-Zа-яА-ЯёЁ\s\-']+$/;
   if (!nameRegex.test(trimmedName)) {
-    return { isValid: false, error: 'Name contains invalid characters' };
+    return { isValid: false, error: 'Имя может содержать только буквы, пробелы, дефисы и апострофы' };
   }
 
-  return { isValid: true, value: trimmedName };
+  const consecutiveSpaces = /\s{2,}/;
+  if (consecutiveSpaces.test(trimmedName)) {
+    return { isValid: false, error: 'Имя не может содержать несколько пробелов подряд' };
+  }
+
+  return { 
+    isValid: true, 
+    value: trimmedName,
+    successMessage: 'Имя корректно'
+  };
 };
 
 /**
@@ -29,25 +41,46 @@ export const validateContactName = (name) => {
  */
 export const validatePhoneNumber = (phone) => {
   if (!phone || typeof phone !== 'string') {
-    return { isValid: false, error: 'Phone number is required' };
+    return { isValid: false, error: 'Номер телефона обязателен для заполнения' };
   }
 
-  // Remove all non-digit characters
   const cleanPhone = phone.replace(/\D/g, '');
-
-  // Check length and format for Russian mobile numbers
-  if (cleanPhone.length !== 11) {
-    return { isValid: false, error: 'Phone number must be 11 digits' };
+  
+  if (cleanPhone.length === 0) {
+    return { isValid: false, error: 'Введите номер телефона' };
   }
 
-  if (!['7', '8'].includes(cleanPhone[0])) {
-    return { isValid: false, error: 'Phone number must start with 7 or 8' };
+  if (cleanPhone.length < 10) {
+    return { isValid: false, error: 'Номер телефона слишком короткий' };
   }
 
-  // Format the phone number
+  if (cleanPhone.length > 11) {
+    return { isValid: false, error: 'Номер телефона слишком длинный' };
+  }
+
+  if (cleanPhone.length === 10 && !cleanPhone.startsWith('9')) {
+    return { isValid: false, error: 'Мобильный номер должен начинаться с 9' };
+  }
+
+  if (cleanPhone.length === 11 && !['7', '8'].includes(cleanPhone[0])) {
+    return { isValid: false, error: 'Номер должен начинаться с +7 или 8' };
+  }
+
+  if (cleanPhone.length === 11 && cleanPhone[0] === '7' && !cleanPhone.startsWith('79')) {
+    return { isValid: false, error: 'Мобильный номер должен начинаться с +79' };
+  }
+
+  if (cleanPhone.length === 11 && cleanPhone[0] === '8' && !cleanPhone.startsWith('89')) {
+    return { isValid: false, error: 'Мобильный номер должен начинаться с 89' };
+  }
+
   const formattedPhone = formatPhoneNumber(cleanPhone);
   
-  return { isValid: true, value: formattedPhone };
+  return { 
+    isValid: true, 
+    value: formattedPhone,
+    successMessage: 'Номер телефона корректен'
+  };
 };
 
 /**
