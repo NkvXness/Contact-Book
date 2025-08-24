@@ -3,9 +3,25 @@
  * Temporary: Import legacy styles until CSS refactoring is complete
  */
 
-/* Modern Contact Book Styles - Replacing legacy CSS */
-/* Import legacy styles for backward compatibility - removing conflicts */
-/* @import url('../../style.css'); */
+/* Modern Contact Book Styles - Complete replacement of legacy CSS */
+/* Legacy CSS has been replaced with modern design system */
+
+/* Override any legacy styles that might be loaded */
+.header__title::after {
+  display: none !important;
+}
+
+.add-contact {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Plus icon styling */
+.plus-icon {
+  width: 12px;
+  height: 12px;
+  margin-left: var(--spacing-1);
+}
 
 /* Modern CSS custom properties for future theme system */
 :root {
@@ -1819,6 +1835,121 @@ button {
   .contact-action-btn svg {
     width: 18px;
     height: 18px;
+  }
+}
+
+/* Legacy class support and overrides */
+.line,
+.accordion__line {
+  display: none; /* Remove legacy separator lines */
+}
+
+/* Ensure proper z-index stacking */
+.header {
+  z-index: 1000 !important;
+}
+
+.dark-bg {
+  z-index: 1100 !important;
+}
+
+.contact__add,
+.contact__groups {
+  z-index: 1200 !important;
+}
+
+.import-export-container {
+  z-index: 1150 !important;
+}
+
+.toast {
+  z-index: 1300 !important;
+}
+
+/* Responsive improvements for small screens */
+@media (max-width: 640px) {
+  .header__wrapper {
+    flex-wrap: wrap;
+    height: auto;
+    padding: var(--spacing-3) 0;
+  }
+  
+  .header__title {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-2);
+    width: 100%;
+    text-align: center;
+  }
+  
+  .add-contact,
+  .groups,
+  .import-export-toggle {
+    height: 36px;
+    font-size: var(--font-size-xs);
+    padding: 0 var(--spacing-3);
+  }
+  
+  .main {
+    margin-top: 120px; /* Account for wrapped header */
+  }
+  
+  .container {
+    padding: 0 var(--spacing-3);
+  }
+  
+  .accordion {
+    padding: 0;
+  }
+  
+  .accordion__item {
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-2);
+  }
+  
+  .contact__add,
+  .contact__groups {
+    width: 95vw;
+    max-width: none;
+    margin: var(--spacing-2);
+  }
+  
+  .contact__add-header_continer,
+  .contact__groups-header_continer,
+  .contact__add-body,
+  .contact__groups-body,
+  .contact__add-footer,
+  .contact__groups-footer {
+    padding: var(--spacing-4);
+  }
+}
+
+/* Smooth scrolling and performance optimizations */
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Improved focus styles for accessibility */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+.selected:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Animation performance optimization */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
