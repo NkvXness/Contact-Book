@@ -1,4 +1,4 @@
-import { Contact } from '@models/Contact.js';
+import { Contact } from '../models/Contact.js';
 import { StorageService } from './StorageService.js';
 import { GroupService } from './GroupService.js';
 

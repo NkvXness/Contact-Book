@@ -3,10 +3,10 @@
  * Handles contact creation and editing
  */
 import { BaseComponent } from './BaseComponent.js';
-import { ContactService } from '@services/ContactService.js';
-import { GroupService } from '@services/GroupService.js';
-import { validateContactName, validatePhoneNumber } from '@utils/validators.js';
-import { SELECTORS, EVENTS, KEYS, CSS_CLASSES } from '@utils/constants.js';
+import { ContactService } from '../services/ContactService.js';
+import { GroupService } from '../services/GroupService.js';
+import { validateContactName, validatePhoneNumber } from '../utils/validators.js';
+import { SELECTORS, EVENTS, KEYS, CSS_CLASSES } from '../utils/constants.js';
 
 export class ContactForm extends BaseComponent {
   constructor(groupManager) {
