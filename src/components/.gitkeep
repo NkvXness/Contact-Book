@@ -1,1 +1,17 @@
-# UI components and presentation logic
+# Components Layer
+
+This directory contains UI components following modern JavaScript component patterns.
+
+## Current Components
+
+- **BaseComponent.js** - Base class with common DOM manipulation utilities
+- **GroupManager.js** - Group creation, editing, and selection interface
+- **ContactForm.js** - Contact creation and editing form with validation
+
+## Architecture Pattern
+
+Components extend BaseComponent and follow these principles:
+- Event-driven communication
+- Automatic cleanup of event listeners
+- Separation of UI logic from business logic
+- Consistent DOM manipulation patterns
