@@ -3,6 +3,7 @@ import { GroupManager } from './components/GroupManager.js';
 import { ContactForm } from './components/ContactForm.js';
 import { ContactList } from './components/ContactList.js';
 import { ContactSearch } from './components/ContactSearch.js';
+import { ContactImportExport } from './components/ContactImportExport.js';
 import { ContactService } from './services/ContactService.js';
 import { GroupService } from './services/GroupService.js';
 import { APP_CONFIG } from './utils/constants.js';
@@ -13,6 +14,7 @@ class ContactBookApp {
     this.contactForm = null;
     this.contactList = null;
     this.contactSearch = null;
+    this.contactImportExport = null;
   }
 
   init() {
@@ -26,9 +28,10 @@ class ContactBookApp {
       this.contactForm = new ContactForm(this.groupManager);
       this.contactList = new ContactList(this.contactForm);
       this.contactSearch = new ContactSearch();
+      this.contactImportExport = new ContactImportExport();
       
       this.setupComponentCommunication();
-      console.log('Modern architecture with search active');
+      console.log('Modern architecture with full features active');
     } catch (error) {
       console.error('Failed to initialize modern mode:', error);
     }
@@ -61,6 +64,10 @@ class ContactBookApp {
 
     document.addEventListener('showAllContacts', () => {
       this.contactSearch.clearSearch();
+    });
+
+    document.addEventListener('contactsImported', (e) => {
+      console.log('Contacts imported:', e.detail.imported, 'contacts');
     });
   }
 
