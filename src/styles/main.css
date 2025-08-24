@@ -543,6 +543,342 @@
   }
 }
 
+/* Mobile-first responsive design */
+@media (max-width: 480px) {
+  /* Header adjustments for small screens */
+  .header__wrapper {
+    flex-wrap: wrap;
+    height: auto;
+    padding: var(--spacing-sm) 0;
+    gap: var(--spacing-sm);
+  }
+  
+  .header__title {
+    font-size: 16px;
+    margin-left: 0;
+  }
+  
+  .add-contact,
+  .groups {
+    font-size: 12px;
+    height: 32px;
+    padding: 6px 12px;
+    min-width: auto;
+  }
+  
+  .add-contact {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  .groups {
+    margin-left: 0;
+  }
+  
+  .import-export-toggle {
+    font-size: 12px;
+    height: 32px;
+    padding: 6px 10px;
+    margin-left: 0;
+  }
+
+  /* Main container adjustments */
+  .container {
+    padding: 0 var(--spacing-sm);
+  }
+  
+  .main__wrapper {
+    padding: var(--spacing-md) 0;
+  }
+
+  /* Form adjustments */
+  .contact__add-wrapper,
+  .contact__groups-wrapper {
+    margin: var(--spacing-sm);
+    border-radius: var(--border-radius-md);
+  }
+  
+  .contact__add-title,
+  .contact__groups-title {
+    font-size: 16px;
+  }
+  
+  .contact__add-field input,
+  .addName,
+  .addPhoneNumber {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 12px;
+  }
+  
+  .contact__save-button,
+  .add,
+  .save {
+    padding: 12px;
+    font-size: 14px;
+    touch-action: manipulation; /* Better touch response */
+  }
+
+  /* Search container mobile */
+  .search-container {
+    margin: var(--spacing-sm);
+    padding: var(--spacing-md);
+  }
+  
+  .search-input {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 12px 40px 12px 16px;
+  }
+  
+  .group-filter {
+    font-size: 16px;
+    padding: 12px;
+    min-width: auto;
+    width: 100%;
+  }
+
+  /* Accordion mobile optimizations */
+  .accordion__header {
+    padding: var(--spacing-md);
+    font-size: 14px;
+  }
+  
+  .accordion__body {
+    padding: 0 var(--spacing-md) var(--spacing-md);
+  }
+  
+  .contact-item {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .contact-name {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .contact-phone {
+    font-size: 13px;
+  }
+  
+  .contact-actions {
+    gap: var(--spacing-xs);
+  }
+  
+  .contact-action-btn {
+    padding: var(--spacing-xs);
+    min-width: 32px;
+    height: 32px;
+  }
+
+  /* Toast adjustments */
+  .toast {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    min-width: auto;
+    max-width: none;
+  }
+  
+  /* Form validation mobile */
+  .form-field.error input,
+  .form-field.success input {
+    padding-right: 45px; /* Space for icons */
+  }
+  
+  .field-icon {
+    right: 12px;
+    width: 18px;
+    height: 18px;
+  }
+  
+  .error-message,
+  .success-message {
+    font-size: 0.8rem;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 481px) and (max-width: 768px) {
+  .header__wrapper {
+    height: 60px;
+  }
+  
+  .add-contact,
+  .groups,
+  .import-export-toggle {
+    font-size: 13px;
+    height: 34px;
+  }
+  
+  .search-wrapper {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .search-field,
+  .filter-field {
+    flex: 1;
+  }
+  
+  .import-export-container {
+    min-width: 350px;
+  }
+}
+
+/* Large screen optimizations */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+  
+  .search-container {
+    max-width: 800px;
+    margin: 0 auto var(--spacing-lg);
+  }
+  
+  .accordion {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}
+
+/* Mobile device classes */
+.mobile-device {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.mobile-device * {
+  -webkit-touch-callout: none;
+}
+
+.mobile-device input,
+.mobile-device textarea {
+  -webkit-touch-callout: default;
+}
+
+/* Touch feedback */
+.touch-active {
+  opacity: 0.7 !important;
+  transform: scale(0.95) !important;
+  transition: all 0.1s ease !important;
+}
+
+/* Keyboard handling */
+.keyboard-open .main__wrapper {
+  padding-bottom: 50vh; /* Extra space when keyboard is open */
+}
+
+.keyboard-open .toast {
+  top: 5px; /* Move toasts higher when keyboard is open */
+}
+
+.keyboard-open .import-export-container {
+  top: 10px; /* Move panel higher when keyboard is open */
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+/* Orientation classes */
+.portrait .search-wrapper {
+  flex-direction: column;
+}
+
+.landscape .search-wrapper {
+  flex-direction: row;
+}
+
+.landscape .import-export-container {
+  right: 10px;
+  left: auto;
+  max-width: 350px;
+}
+
+.portrait .import-export-container {
+  left: 10px;
+  right: 10px;
+  max-width: none;
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger touch targets */
+  .contact-action-btn,
+  .search-clear,
+  .import-export-toggle,
+  .add-contact,
+  .groups {
+    min-height: 44px; /* iOS recommended minimum */
+    min-width: 44px;
+  }
+  
+  /* Remove hover effects on touch devices */
+  .contact-action-btn:hover,
+  .add-contact:hover,
+  .groups:hover,
+  .search-suggestion:hover,
+  .export-btn:hover,
+  .import-btn:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  /* Better touch feedback */
+  .contact-action-btn:active,
+  .add-contact:active,
+  .groups:active {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+}
+
+/* Print styles */
+@media print {
+  .header,
+  .search-container,
+  .import-export-container,
+  .toast,
+  .contact-actions {
+    display: none !important;
+  }
+  
+  .main {
+    background: white !important;
+  }
+  
+  .accordion__item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  
+  .contact-item {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Future: Dark mode support */
+  :root {
+    --background-color: #1a1a1a;
+    --text-color: #ffffff;
+    --border-color: #333333;
+  }
+}
+
 /* Future-ready utility classes */
 .sr-only {
   position: absolute;

@@ -4,6 +4,7 @@ import { ContactForm } from './components/ContactForm.js';
 import { ContactList } from './components/ContactList.js';
 import { ContactSearch } from './components/ContactSearch.js';
 import { ContactImportExport } from './components/ContactImportExport.js';
+import { MobileInterface } from './components/MobileInterface.js';
 import { ContactService } from './services/ContactService.js';
 import { GroupService } from './services/GroupService.js';
 import { APP_CONFIG } from './utils/constants.js';
@@ -15,6 +16,7 @@ class ContactBookApp {
     this.contactList = null;
     this.contactSearch = null;
     this.contactImportExport = null;
+    this.mobileInterface = null;
   }
 
   init() {
@@ -24,6 +26,7 @@ class ContactBookApp {
 
   initModernMode() {
     try {
+      this.mobileInterface = new MobileInterface();
       this.groupManager = new GroupManager();
       this.contactForm = new ContactForm(this.groupManager);
       this.contactList = new ContactList(this.contactForm);
@@ -31,7 +34,7 @@ class ContactBookApp {
       this.contactImportExport = new ContactImportExport();
       
       this.setupComponentCommunication();
-      console.log('Modern architecture with full features active');
+      console.log('Modern responsive architecture with full features active');
     } catch (error) {
       console.error('Failed to initialize modern mode:', error);
     }
