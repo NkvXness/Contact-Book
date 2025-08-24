@@ -3,9 +3,9 @@
  * Handles group creation, editing, and display
  */
 import { BaseComponent } from './BaseComponent.js';
-import { GroupService } from '@services/GroupService.js';
-import { validateGroupName } from '@utils/validators.js';
-import { SELECTORS, EVENTS, KEYS, TEMPLATES, CSS_CLASSES } from '@utils/constants.js';
+import { GroupService } from '../services/GroupService.js';
+import { validateGroupName } from '../utils/validators.js';
+import { SELECTORS, EVENTS, KEYS, TEMPLATES, CSS_CLASSES } from '../utils/constants.js';
 
 export class GroupManager extends BaseComponent {
   constructor() {

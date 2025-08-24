@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  base: process.env.NODE_ENV === 'production' ? '/Contact-Book/' : '/',
   root: './',
   build: {
     outDir: 'dist',
@@ -11,7 +12,8 @@ export default defineConfig({
     },
     sourcemap: true,
     minify: 'esbuild',
-    target: 'esnext'
+    target: 'esnext',
+    emptyOutDir: true
   },
   server: {
     port: 3000,
@@ -21,15 +23,5 @@ export default defineConfig({
   preview: {
     port: 4173,
     open: true
-  },
-  resolve: {
-    alias: {
-      '@': new URL('./src', import.meta.url).pathname,
-      '@models': new URL('./src/models', import.meta.url).pathname,
-      '@services': new URL('./src/services', import.meta.url).pathname,
-      '@components': new URL('./src/components', import.meta.url).pathname,
-      '@utils': new URL('./src/utils', import.meta.url).pathname,
-      '@styles': new URL('./src/styles', import.meta.url).pathname
-    }
   }
 });

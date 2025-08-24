@@ -1,4 +1,4 @@
-import { Group } from '@models/Group.js';
+import { Group } from '../models/Group.js';
 import { StorageService } from './StorageService.js';
 
 export class GroupService {
