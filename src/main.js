@@ -2,6 +2,7 @@
 import { GroupManager } from './components/GroupManager.js';
 import { ContactForm } from './components/ContactForm.js';
 import { ContactList } from './components/ContactList.js';
+import { ContactSearch } from './components/ContactSearch.js';
 import { ContactService } from './services/ContactService.js';
 import { GroupService } from './services/GroupService.js';
 import { APP_CONFIG } from './utils/constants.js';
@@ -11,6 +12,7 @@ class ContactBookApp {
     this.groupManager = null;
     this.contactForm = null;
     this.contactList = null;
+    this.contactSearch = null;
   }
 
   init() {
@@ -23,9 +25,10 @@ class ContactBookApp {
       this.groupManager = new GroupManager();
       this.contactForm = new ContactForm(this.groupManager);
       this.contactList = new ContactList(this.contactForm);
+      this.contactSearch = new ContactSearch();
       
       this.setupComponentCommunication();
-      console.log('Modern architecture active');
+      console.log('Modern architecture with search active');
     } catch (error) {
       console.error('Failed to initialize modern mode:', error);
     }
@@ -50,6 +53,14 @@ class ContactBookApp {
 
     document.addEventListener('groupDeleted', (e) => {
       console.log('Group deleted:', e.detail.group.name);
+    });
+
+    document.addEventListener('clearSearch', () => {
+      this.contactSearch.clearSearch();
+    });
+
+    document.addEventListener('showAllContacts', () => {
+      this.contactSearch.clearSearch();
     });
   }
 

@@ -8,6 +8,8 @@ export class ContactList extends BaseComponent {
     super();
     this.contactForm = contactForm;
     this.accordionEngine = null;
+    this.filteredContacts = [];
+    this.searchState = { query: '', groupFilter: '', hasActiveFilters: false };
     this.bindElements();
     this.bindEvents();
     this.initAccordion();
@@ -22,11 +24,31 @@ export class ContactList extends BaseComponent {
   bindEvents() {
     this.addEventListener(this.accordion, EVENTS.CLICK, (e) => this.handleAccordionClick(e));
     
-    this.on('contactCreated', () => this.render());
-    this.on('contactUpdated', () => this.render());
-    this.on('contactDeleted', () => this.render());
-    this.on('groupCreated', () => this.render());
-    this.on('groupDeleted', () => this.render());
+    this.on('contactCreated', () => this.handleDataChange());
+    this.on('contactUpdated', () => this.handleDataChange());
+    this.on('contactDeleted', () => this.handleDataChange());
+    this.on('groupCreated', () => this.handleDataChange());
+    this.on('groupDeleted', () => this.handleDataChange());
+    
+    this.on('searchResults', (e) => this.handleSearchResults(e.detail));
+  }
+
+  handleDataChange() {
+    this.emit('contactsChanged');
+    if (this.searchState.hasActiveFilters) {
+      return;
+    }
+    this.render();
+  }
+
+  handleSearchResults(results) {
+    this.filteredContacts = results.results;
+    this.searchState = {
+      query: results.query,
+      groupFilter: results.groupFilter,
+      hasActiveFilters: results.hasActiveFilters
+    };
+    this.renderSearchResults();
   }
 
   initAccordion() {
@@ -56,12 +78,45 @@ export class ContactList extends BaseComponent {
       }
     });
 
-    // Handle contacts without groups (legacy data)
     const ungroupedContacts = contacts.filter(contact => 
       !contact.groupId || !GroupService.findById(contact.groupId)
     );
     if (ungroupedContacts.length > 0) {
       this.renderGroupSection({ name: 'Без группы', id: 'ungrouped' }, ungroupedContacts);
+    }
+  }
+
+  renderSearchResults() {
+    this.setHTML(this.accordion, '');
+    
+    if (this.filteredContacts.length === 0) {
+      this.updateSearchEmptyState();
+      return;
+    }
+
+    this.updateSearchTitle();
+
+    if (!this.searchState.groupFilter) {
+      const groups = GroupService.getAllGroups();
+      
+      groups.forEach(group => {
+        const groupContacts = this.filteredContacts.filter(contact => contact.groupId === group.id);
+        if (groupContacts.length > 0) {
+          this.renderGroupSection(group, groupContacts, true);
+        }
+      });
+
+      const ungroupedContacts = this.filteredContacts.filter(contact => 
+        !contact.groupId || !GroupService.findById(contact.groupId)
+      );
+      if (ungroupedContacts.length > 0) {
+        this.renderGroupSection({ name: 'Без группы', id: 'ungrouped' }, ungroupedContacts, true);
+      }
+    } else {
+      const group = GroupService.findById(this.searchState.groupFilter);
+      if (group) {
+        this.renderGroupSection(group, this.filteredContacts, true);
+      }
     }
   }
 
@@ -160,10 +215,65 @@ export class ContactList extends BaseComponent {
     }
   }
 
+  updateSearchEmptyState() {
+    if (this.mainTitle) {
+      if (this.searchState.query || this.searchState.groupFilter) {
+        this.mainTitle.textContent = 'Контакты не найдены';
+        
+        const emptyState = this.createElement('div', {
+          className: 'search-empty-state'
+        });
+        
+        emptyState.innerHTML = `
+          <h3>По вашему запросу ничего не найдено</h3>
+          <p>Попробуйте изменить поисковый запрос или выбрать другую группу</p>
+          <div class="search-suggestions">
+            <button class="search-suggestion" data-action="clear-search">Очистить фильтры</button>
+            <button class="search-suggestion" data-action="show-all">Показать все контакты</button>
+          </div>
+        `;
+        
+        this.accordion.appendChild(emptyState);
+        
+        this.addEventListener(emptyState, EVENTS.CLICK, (e) => {
+          if (e.target.dataset.action === 'clear-search') {
+            this.emit('clearSearch');
+          } else if (e.target.dataset.action === 'show-all') {
+            this.emit('showAllContacts');
+          }
+        });
+      } else {
+        this.mainTitle.textContent = 'Список контактов пуст';
+      }
+    }
+  }
+
   updateTitle(count) {
     if (this.mainTitle) {
       this.mainTitle.textContent = `Контактов: ${count}`;
     }
+  }
+
+  updateSearchTitle() {
+    if (this.mainTitle) {
+      const query = this.searchState.query;
+      const count = this.filteredContacts.length;
+      
+      if (query) {
+        this.mainTitle.innerHTML = `Результаты поиска "${query}": ${count} ${this.getContactWord(count)}`;
+      } else if (this.searchState.groupFilter) {
+        const group = GroupService.findById(this.searchState.groupFilter);
+        this.mainTitle.textContent = `${group?.name || 'Группа'}: ${count} ${this.getContactWord(count)}`;
+      } else {
+        this.mainTitle.textContent = `Контактов: ${count}`;
+      }
+    }
+  }
+
+  getContactWord(count) {
+    if (count % 10 === 1 && count % 100 !== 11) return 'контакт';
+    if ([2, 3, 4].includes(count % 10) && ![12, 13, 14].includes(count % 100)) return 'контакта';
+    return 'контактов';
   }
 }
 
