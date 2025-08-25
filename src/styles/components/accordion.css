@@ -1,86 +1,67 @@
-/* Accordion Component */
 .accordion {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-4);
+  width: 100%;
 }
 
 .accordion__item {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   overflow: hidden;
-  transition: all var(--transition-base);
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
 }
 
 .accordion__item:hover {
+  box-shadow: var(--shadow-md);
   border-color: var(--color-border-hover);
 }
 
-.accordion__trigger {
-  width: 100%;
+.accordion__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-4) var(--space-6);
-  background: none;
-  border: none;
-  text-align: left;
-  font-size: var(--text-base);
-  font-weight: var(--font-medium);
-  color: var(--color-text-primary);
+  padding: var(--space-5) var(--space-6);
   cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.accordion__trigger:hover {
   background: var(--gray-50);
-}
-
-.accordion__trigger[aria-expanded="true"] {
   border-bottom: 1px solid var(--color-border);
+  transition: var(--transition);
 }
 
-.accordion__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
+.accordion__header:hover {
+  background: var(--gray-100);
+}
+
+.accordion__header::after {
+  content: '⌄';
+  font-size: var(--text-lg);
   color: var(--color-text-secondary);
-  transition: transform var(--transition-base);
+  transition: var(--transition);
 }
 
-.accordion__trigger[aria-expanded="true"] .accordion__icon {
+.accordion__item.accordion__item_show .accordion__header::after {
   transform: rotate(180deg);
 }
 
-.accordion__icon::before {
-  content: '⌄';
-  font-size: var(--text-lg);
-}
-
-.accordion__content {
+.accordion__body {
+  max-height: 0;
   overflow: hidden;
-  transition: all var(--transition-base);
+  transition: max-height 300ms ease;
 }
 
-.accordion__item:not([data-state="open"]) .accordion__content {
-  height: 0;
+.accordion__item.accordion__item_show .accordion__body {
+  max-height: 2000px;
 }
 
-.accordion__content-inner {
-  padding: 0 var(--space-6) var(--space-6);
-}
-
-/* Contact item inside accordion */
 .contact-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-3) var(--space-6);
+  padding: var(--space-4) var(--space-6);
   border-bottom: 1px solid var(--color-border);
-  transition: background var(--transition-fast);
+  transition: var(--transition);
 }
 
 .contact-item:last-child {
@@ -91,12 +72,12 @@
   background: var(--gray-50);
 }
 
-.contact-item__info {
+.contact-info {
   flex: 1;
   min-width: 0;
 }
 
-.contact-item__name {
+.contact-name {
   font-size: var(--text-base);
   font-weight: var(--font-medium);
   color: var(--color-text-primary);
@@ -106,18 +87,61 @@
   white-space: nowrap;
 }
 
-.contact-item__phone {
+.contact-phone {
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
-  font-variant-numeric: tabular-nums;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.contact-item__actions {
+.contact-actions {
   display: flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: var(--space-2);
   margin-left: var(--space-4);
+}
+
+.contact-action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  color: var(--color-text-secondary);
+}
+
+.contact-action-btn:hover {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  transform: translateY(-1px);
+}
+
+.contact-action-btn.delete-button:hover {
+  background: var(--color-error);
+}
+
+@media (max-width: 768px) {
+  .accordion__header {
+    padding: var(--space-4);
+  }
+  
+  .contact-item {
+    padding: var(--space-4);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+  
+  .contact-info {
+    width: 100%;
+  }
+  
+  .contact-actions {
+    margin-left: 0;
+    align-self: flex-end;
+  }
 }

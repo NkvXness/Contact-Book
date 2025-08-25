@@ -1,39 +1,50 @@
-/* Main Content Layout */
 .main {
-  margin-top: 72px;
-  min-height: calc(100vh - 72px);
-  background: var(--color-background);
-  padding: var(--space-6) 0;
+  padding-top: 64px;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
 }
 
 .main__wrapper {
+  padding: var(--space-8) 0;
+  min-height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
-  min-height: calc(100vh - 144px);
+  align-items: center;
+  justify-content: center;
 }
 
 .main__title {
-  text-align: center;
-  font-size: var(--text-lg);
+  font-size: var(--text-2xl);
   font-weight: var(--font-semibold);
   color: var(--color-text-secondary);
-  margin-bottom: var(--space-4);
+  text-align: center;
+  margin-bottom: var(--space-8);
+  opacity: 0.8;
 }
 
-/* Dark background overlay for modals */
+.accordion {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 .dark-bg {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
   z-index: var(--z-overlay);
   opacity: 0;
   visibility: hidden;
-  transition: all var(--transition-base);
+  transition: var(--transition);
 }
 
 .dark-bg.bg {
@@ -41,10 +52,12 @@
   visibility: visible;
 }
 
-/* Mobile responsiveness */
-@media (max-width: 640px) {
-  .main {
-    margin-top: 120px; /* Account for wrapped header */
-    padding: var(--space-4) 0;
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-4);
+  }
+  
+  .main__wrapper {
+    padding: var(--space-6) 0;
   }
 }
