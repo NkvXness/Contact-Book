@@ -1,0 +1,50 @@
+/* Main Content Layout */
+.main {
+  margin-top: 72px;
+  min-height: calc(100vh - 72px);
+  background: var(--color-background);
+  padding: var(--space-6) 0;
+}
+
+.main__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-height: calc(100vh - 144px);
+}
+
+.main__title {
+  text-align: center;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+/* Dark background overlay for modals */
+.dark-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(4px);
+  z-index: var(--z-overlay);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-base);
+}
+
+.dark-bg.bg {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .main {
+    margin-top: 120px; /* Account for wrapped header */
+    padding: var(--space-4) 0;
+  }
+}

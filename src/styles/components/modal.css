@@ -82,20 +82,203 @@
   padding: 0 var(--space-6) var(--space-6);
 }
 
+/* Contact book specific modal styles */
+.contact__add,
+.contact__groups {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  z-index: var(--z-modal);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-base);
+  max-width: 500px;
+  width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.contact__add.add__open,
+.contact__groups.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.contact__add-wrapper,
+.contact__groups-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
+
+.contact__add-header_continer,
+.contact__groups-header_continer {
+  padding: var(--space-6) var(--space-6) 0;
+}
+
+.contact__add-header,
+.contact__groups-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contact__add-title,
+.contact__groups-title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  line-height: var(--leading-tight);
+}
+
+.contact__add-close,
+.contact__groups-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.contact__add-close:hover,
+.contact__groups-close:hover {
+  background: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.contact__add-body,
+.contact__groups-body {
+  padding: var(--space-6);
+  flex: 1;
+  overflow-y: auto;
+}
+
+.contact__add-footer,
+.contact__groups-footer {
+  padding: 0 var(--space-6) var(--space-6);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+/* Contact form fields */
+.contact__add-field {
+  margin-bottom: var(--space-4);
+}
+
+.contact__add-field input,
+.addName,
+.addPhoneNumber {
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  transition: all var(--transition-fast);
+}
+
+.contact__add-field input:focus,
+.addName:focus,
+.addPhoneNumber:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.contact__add-field input::placeholder,
+.addName::placeholder,
+.addPhoneNumber::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+/* Groups modal specific styles */
+.contact__groups-field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.contact__groups-field input {
+  flex: 1;
+  height: 44px;
+  padding: 0 var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  transition: all var(--transition-fast);
+}
+
+.contact__groups-field input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.contact__groups-field input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.contact__groups-field .delete-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.contact__groups-field .delete-button:hover {
+  background: var(--color-error);
+  color: var(--color-text-inverse);
+  transform: scale(1.05);
+}
+
 /* Mobile optimizations */
 @media (max-width: 640px) {
-  .modal {
+  .modal,
+  .contact__add,
+  .contact__groups {
     width: 95vw;
     max-height: 95vh;
   }
   
   .modal__header,
   .modal__body,
-  .modal__footer {
+  .modal__footer,
+  .contact__add-header_continer,
+  .contact__groups-header_continer,
+  .contact__add-body,
+  .contact__groups-body,
+  .contact__add-footer,
+  .contact__groups-footer {
     padding: var(--space-4);
   }
   
-  .modal__footer {
+  .modal__footer,
+  .contact__add-footer,
+  .contact__groups-footer {
     padding-top: 0;
   }
 }

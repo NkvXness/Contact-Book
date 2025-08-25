@@ -8,6 +8,7 @@
 /* Layout */
 @import './layout/container.css';
 @import './layout/header.css';
+@import './layout/main.css';
 
 /* Components */
 @import './components/button.css';
